@@ -475,13 +475,13 @@ fold-right operations on lists. In particular, we can define
 `concat` using `fold_right` as follows:
 
 ```ocaml
-let concat xs ys = fold_right (::) xs ys
+let concat xs ys = fold_right (fun z zs -> z :: zs) xs ys
 ```
 
 or more compactly
 
 ```ocaml
-let concat = fold_right (::)
+let concat = fold_right (fun z zs -> z :: zs)
 ```
 
 Also the higher-order function `map` is actually just a special case of
