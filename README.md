@@ -386,19 +386,19 @@ let sum_list = function
   | x :: xs -> x + sum_list xs
 ```
 
-Consider a list `xs` of `n` integer values `d1` to `dn`:
+Consider a list `xs` of `n` integer values `x1` to `xn`:
 
 ```ocaml
-[d1; ...; dn]
+[x1; ...; xn]
 ```
 
 Then unrolling the recursion of `sum` on `xs` yields the
 following computation
 
 ```ocaml
-d1 + (d2 + (... (d2 + 0)...))
+x1 + (x2 + (... (xn + 0)...))
 ```
-That is, in the `i`-th recursive call, we add the current head `di` to
+That is, in the `i`-th recursive call, we add the current head `xi` to
 the sum of the values in the current tail. Here, we consider the sum
 of an empty list `[]` to be `0`. If we represent this
 computation as a tree, this tree looks as follows:
@@ -406,13 +406,13 @@ computation as a tree, this tree looks as follows:
 ```ocaml
       +
      / \
-    d1  +
+    x1  +
        / \
-      d2 ... 
+      x2 ... 
            \
             +
            / \
-          dn  0
+          xn  0
 ```
 
 With this representation, it is easy to see how to generalize from the
@@ -428,19 +428,19 @@ is then represented by the following tree:
 ```ocaml
       op
      / \
-    d1  op
+    x1  op
        / \
-      d2 ... 
+      x2 ... 
            \
             op
            / \
-          dn  z
+          xn  z
 ```
  
 or using OCaml syntax, by the expression
 
-```scheme
-op d1 (op d2 (... (op dn z) ...))
+```ocaml
+op x1 (op x2 (... (op xn z) ...))
 ```
 
 We refer to this type of computation as a *fold* of the list
@@ -497,20 +497,20 @@ in right-to-left order. We can also consider fold operations that
 perform the computation in left-to-right order:
 
 ```ocaml
-op (... (op (op z d1) d2) ...) dn
+op (... (op (op z x1) x2) ...) xn
 ```
 
 The corresponding computation tree then looks as follows:
 ```ocaml
         op
        /  \
-     ...  dn
+     ...  xn
      /
     op 
    /  \
-  op  d2
+  op  x2
  /  \
-z   d1
+z   x1
 ```
 
 Note that the tree is now leaning towards the left and the elements
