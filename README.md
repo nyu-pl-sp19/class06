@@ -581,8 +581,104 @@ find these kinds of functions in most implementations of common data
 structures in the standard libraries of functional programming
 languages.
 
+### Practicing the use of `fold_left` and `fold_right`
 
+If you have trouble deriving a implementation of a particular function
+on lists using `fold_left`s`/`fold_right`, here is a trick of how to go about it.
 
+If you want an implementation that uses `fold_right`, then first write a
+non-tail-recursive function of this shape:
 
+```ocaml
+let rec your_function xs = 
+  match xs with
+  | [] -> (* xs is empty *)
+  value_your_function_returns_for_empty_list
+  | hd :: tl -> (* xs is non-empty *)
+    (* solve the problem for tl recursively and store result in res *)
+    let res = your_function tl in
+    (* compute actual result for whole list from hd and res *)
+    work_to_do_in_each_step_using_hd_and_res
+```
 
+Then this translates into the following equivalent implementation with
+`fold_right`:
 
+```ocaml
+let your_function xs = 
+  List.fold_right 
+    (fun hd res -> work_to_do_in_each_step_using_hd_and_res)
+    xs
+    value_your_function_returns_for_empty_list
+```
+
+Example:
+
+ 
+```ocaml
+let rec sum_list xs =
+  match xs with
+  | [] -> 0
+  | hd :: tl -> 
+    let res = sum_list tl in
+    hd + res
+```
+
+gives:
+
+```ocaml
+let sum_list xs = List.fold_right (lambda hd res -> hd + res) xs 0
+```
+
+For using fold_left, you first need a tail-recursive implementation of this shape:
+
+```ocaml
+let your_function xs = 
+  let rec your_function_helper xs res =
+    match xs with
+    | [] -> (* list is empty *)
+      res
+    | hd :: tl -> (* list is non-empty *)
+      let res1 = work_to_do_in_each_step_using_hd_and_res in
+      (* call the helper recursively on tl with the updated accumulator value res1 *)
+      your_function_helper tl res1
+  in
+  your_function_helper xs value_your_function_returns_for_empty_list
+```
+ 
+Then this leads to an equivalent implementation with `fold_left` like this:
+
+ 
+```ocaml
+let your-function xs = 
+  List.fold_left (fun res hd -> work_to_do_in_each_step_using_hd_and_res) 
+  value_your_function_returns_for_empty_list 
+  xs
+```
+ 
+Example:
+
+ 
+```ocaml
+let sum_list xs =
+  let rec sum_list_helper xs res =
+    match xs with
+    | [] -> res
+    | hd :: tl -> 
+      let res1 = hd + res in
+      sum_list_helper tl res1
+  in
+  sum_list_helper xs 0
+```
+
+gives
+
+ 
+```ocaml
+let sum_list xs = List.fold_left (fun res hd -> hd + res) 0 xs
+```
+ 
+So if you have trouble coming up with an implementation that uses
+`fold_left`/`fold_right`, try to follow this recipe. Once you have
+done this on a few examples, it will become natural to write the
+versions that use the fold functions directly.
