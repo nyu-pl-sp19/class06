@@ -680,5 +680,5 @@ let sum_list xs = List.fold_left (fun res hd -> hd + res) 0 xs
  
 So if you have trouble coming up with an implementation that uses
 `fold_left`/`fold_right`, try to follow this recipe. Once you have
-done this on a few examples, it will become natural to write the
-versions that use the fold functions directly.
+gone through a few examples like this, it will become natural to write
+the versions that use the fold functions directly.
