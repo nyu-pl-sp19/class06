@@ -584,7 +584,7 @@ languages.
 ### Practicing the use of `fold_left` and `fold_right`
 
 If you have trouble deriving a implementation of a particular function
-on lists using `fold_left`s`/`fold_right`, here is a trick of how to go about it.
+on lists using `fold_left`/`fold_right`, here is a trick of how to go about it.
 
 If you want an implementation that uses `fold_right`, then first write a
 non-tail-recursive function of this shape:
