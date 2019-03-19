@@ -522,7 +522,7 @@ The following function implements the fold-left operation on lists:
 ```ocaml
 let rec fold_left op z = function
   | [] -> []
-  | x :: xs -> fold_left (op z x) xs
+  | x :: xs -> fold_left op (op z x) xs
 ```
 
 Since addition is associative and commutative, we can alternatively
