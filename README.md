@@ -456,7 +456,7 @@ The following higher-order function implements the fold-right operation:
 let rec fold_right op xs z = 
   match xs with
   | [] -> z
-  | x :: xs -> op x (fold_right op z xs)
+  | x :: xs -> op x (fold_right op xs z)
 ```
 
 We can now redefine `sum_list` in terms of `fold_right`:
