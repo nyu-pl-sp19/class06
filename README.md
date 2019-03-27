@@ -521,7 +521,7 @@ The following function implements the fold-left operation on lists:
 
 ```ocaml
 let rec fold_left op z = function
-  | [] -> []
+  | [] -> z
   | x :: xs -> fold_left op (op z x) xs
 ```
 
